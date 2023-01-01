@@ -6,10 +6,19 @@ use Illuminate\Http\Request;
 
 class LifeCycleTestController extends Controller
 {
+    public function showServiceProviderTest()
+    {
+        $encrypt = app()->make('encrypter');
+        $password = $encrypt->encrypt('password');
+
+
+        $sample = app()->make('serviceProviderTest');
+
+        dd($sample, $password, $encrypt->decrypt($password));
+    }
     public function showServiceContainerTest()
     {
-        app()->bind('LifeCycleTest', function()
-        {
+        app()->bind('LifeCycleTest', function () {
             return 'ライフサイクルテスト';
         });
 
@@ -45,6 +54,6 @@ class Message
 {
     public function send()
     {
-        echo('メッセージ表示');
+        echo ('メッセージ表示');
     }
 }
