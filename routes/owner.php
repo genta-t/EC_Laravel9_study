@@ -10,6 +10,7 @@ use App\Http\Controllers\Owner\Auth\PasswordController;
 use App\Http\Controllers\Owner\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Owner\Auth\RegisteredUserController;
 use App\Http\Controllers\Owner\Auth\VerifyEmailController;
+use App\Http\Controllers\Owner\ImageController;
 use App\Http\Controllers\Owner\ShopController;
 use Illuminate\Support\Facades\Route;
 
@@ -36,6 +37,9 @@ Route::prefix('shops')
         Route::get('edit/{shop}', [ShopController::class, 'edit'])->name('shops.edit');
         Route::post('update/{shop}', [ShopController::class, 'update'])->name('shops.update');
     });
+
+    Route::resource('images', ImageController::class)
+    ->middleware(['auth:owners', 'verified'])->except(['show']);
 
 Route::get('/dashboard', function () {
     return view('owner.dashboard');
