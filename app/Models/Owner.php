@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Image;
 use App\Models\Shop;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -45,5 +46,10 @@ class Owner extends Authenticatable
     public function shop()
     {
         return $this->hasOne(Shop::class);
+    }
+
+    public function image()
+    {
+        return $this->hasManyOne(Image::class);
     }
 }
