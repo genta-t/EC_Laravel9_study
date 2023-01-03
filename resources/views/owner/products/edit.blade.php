@@ -11,7 +11,7 @@
                 <div class="p-6 text-gray-900">
                     <x-auth-validation-errors class="mb-4" :errors="$errors" />
                     <x-flash-message status="session('status')" />
-                    <form method="post" action="{{ route('owner.products.update', ['product' => $product->id ]) }}">
+                    <form method="post" action="{{ route('owner.products.update', ['product' => $product->id]) }}">
                         @csrf
                         @method('put')
                         <div class=" -m-2">
@@ -61,11 +61,12 @@
                             <div class="p-2 w-1/2 mx-auto">
                                 <div class="relative flex justify-around">
                                     <div>
-                                        <input type="radio" name="type" value="{{ \Constant::PRODUCT_LIST['add'] }}" class="mr-2"
-                                            checked>追加
+                                        <input type="radio" name="type"
+                                            value="{{ \Constant::PRODUCT_LIST['add'] }}" class="mr-2" checked>追加
                                     </div>
                                     <div>
-                                        <input type="radio" name="type" value="{{ \Constant::PRODUCT_LIST['reduce'] }}" class="mr-2">削減
+                                        <input type="radio" name="type"
+                                            value="{{ \Constant::PRODUCT_LIST['reduce'] }}" class="mr-2">削減
                                     </div>
                                 </div>
                             </div>
@@ -74,7 +75,7 @@
                                     <label for="quantity" class="leading-7 text-sm text-gray-600">数量 ※必須</label>
                                     <input type="number" id="quantity" name="quantity" required value="0"
                                         class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-purple-500 focus:bg-white focus:ring-2 focus:ring-purple-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-                                        <span class="text-sm">0〜99の範囲で入力してください</span>
+                                    <span class="text-sm">0〜99の範囲で入力してください</span>
                                 </div>
                             </div>
                             <div class="p-2 w-1/2 mx-auto">
@@ -83,7 +84,8 @@
                                     <select name="shop_id" id="shop_id"
                                         class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-purple-500 focus:bg-white focus:ring-2 focus:ring-purple-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                                         @foreach ($shops as $shop)
-                                            <option value="{{ $shop->id }}" @if($shop->id === $product->shop_id) selected @endif >
+                                            <option value="{{ $shop->id }}"
+                                                @if ($shop->id === $product->shop_id) selected @endif>
                                                 {{ $shop->name }}
                                             </option>
                                         @endforeach
@@ -98,7 +100,8 @@
                                         @foreach ($categories as $category)
                                             <optgroup label="{{ $category->name }}">
                                                 @foreach ($category->secondary as $secondary)
-                                                    <option value="{{ $secondary->id }}" @if($secondary->id === $product->secondary_category_id) selected @endif>
+                                                    <option value="{{ $secondary->id }}"
+                                                        @if ($secondary->id === $product->secondary_category_id) selected @endif>
                                                         {{ $secondary->name }}
                                                     </option>
                                                 @endforeach
@@ -106,20 +109,24 @@
                                     </select>
                                 </div>
                             </div>
-                            <x-select-image :images="$images" currentId="{{ $product->image1 }}" currentImage="{{ $product->imageFirst->filename ?? '' }}" name="image1" />
-                            <x-select-image :images="$images" currentId="{{ $product->image2 }}" currentImage="{{ $product->imageSecond->filename ?? '' }}" name="image2" />
-                            <x-select-image :images="$images" currentId="{{ $product->image3 }}" currentImage="{{ $product->imageThird->filename ?? '' }}" name="image3" />
-                            <x-select-image :images="$images" currentId="{{ $product->image4 }}" currentImage="{{ $product->imageFourth->filename ?? '' }}" name="image4" />
+                            <x-select-image :images="$images" currentId="{{ $product->image1 }}"
+                                currentImage="{{ $product->imageFirst->filename ?? '' }}" name="image1" />
+                            <x-select-image :images="$images" currentId="{{ $product->image2 }}"
+                                currentImage="{{ $product->imageSecond->filename ?? '' }}" name="image2" />
+                            <x-select-image :images="$images" currentId="{{ $product->image3 }}"
+                                currentImage="{{ $product->imageThird->filename ?? '' }}" name="image3" />
+                            <x-select-image :images="$images" currentId="{{ $product->image4 }}"
+                                currentImage="{{ $product->imageFourth->filename ?? '' }}" name="image4" />
                             <x-select-image :images="$images" name="image5" />
                             <div class="p-2 w-1/2 mx-auto">
                                 <div class="relative flex justify-around">
                                     <div>
                                         <input type="radio" name="is_selling" value="1" class="mr-2"
-                                        @if ($product->is_selling === 1) {checked} @endif>販売中
+                                            @if ($product->is_selling === 1) {checked} @endif>販売中
                                     </div>
                                     <div>
                                         <input type="radio" name="is_selling" value="0" class="mr-2"
-                                        @if ($product->is_selling === 0) {checked} @endif>停止中
+                                            @if ($product->is_selling === 0) {checked} @endif>停止中
                                     </div>
                                 </div>
                             </div>
@@ -131,6 +138,17 @@
                             </div>
                         </div>
                     </form>
+                    <form id="delete_{{ $product->id }}" method="post"
+                        action="{{ route('owner.products.destroy', ['product' => $product->id]) }}">
+                        @csrf
+                        @method('DELETE')
+                        <div class="p-2 w-full flex justify-around mt-32">
+                            <a href="#" data-id="{{ $product->id }}" onclick="deletePost(this)"
+                                class="text-white bg-red-400 border-0 py-2 px-4 focus:outline-none hover:bg-red-500 rounded">
+                                削除する
+                            </a>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -139,8 +157,8 @@
         'use strict'
         const images = document.querySelectorAll('.image')
 
-        images.forEach( image => {
-            image.addEventListener('click', function(e){
+        images.forEach(image => {
+            image.addEventListener('click', function(e) {
                 const imageName = e.target.dataset.id.substr(0, 6)
                 const imageId = e.target.dataset.id.replace(imageName + '_', '')
                 const imageFile = e.target.dataset.file
@@ -151,5 +169,12 @@
                 MicroModal.close(modal);
             }, )
         })
+
+        function deletePost(e) {
+            'use strict';
+            if (confirm('本当に削除してもいいですか？')) {
+                document.getElementById('delete_' + e.dataset.id).submit()
+            }
+        }
     </script>
 </x-app-layout>
