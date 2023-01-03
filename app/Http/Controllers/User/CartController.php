@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use PhpParser\Node\Stmt\Catch_;
 
 class CartController extends Controller
 {
@@ -41,6 +42,15 @@ class CartController extends Controller
                 'quantity' => $request->quantity,
             ]);
         }
+
+        return redirect()->route('user.cart.index');
+    }
+
+    public function delete($id)
+    {
+        Cart::where('product_id', $id)
+        ->where('user_id', Auth::id())
+        ->delete();
 
         return redirect()->route('user.cart.index');
     }
