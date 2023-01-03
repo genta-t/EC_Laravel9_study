@@ -156,7 +156,8 @@ return [
     'attributes' => [
         'name' => '名前',
         'email' => 'メールアドレス',
-        'password' => 'パスワード'
+        'password' => 'パスワード',
+        'is_selling' => '販売状態'
     ],
 
 ];
