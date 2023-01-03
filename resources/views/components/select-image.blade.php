@@ -1,19 +1,24 @@
 @php
     if ($name === 'image1') {
-        $modal = 'modal-1' ;
+        $modal = 'modal-1';
     }
     if ($name === 'image2') {
-        $modal = 'modal-2' ;
+        $modal = 'modal-2';
     }
     if ($name === 'image3') {
-        $modal = 'modal-3' ;
+        $modal = 'modal-3';
     }
     if ($name === 'image4') {
-        $modal = 'modal-4' ;
+        $modal = 'modal-4';
     }
     if ($name === 'image5') {
-        $modal = 'modal-5' ;
+        $modal = 'modal-5';
     }
+    // currentImage
+    // $cImage = currentImage ?? '' ;
+    // //dd($cImage);
+    // $cId = currentId ?? '' ;
+
 @endphp
 
 <div class="modal micromodal-slide" id="{{ $modal }}" aria-hidden="true">
@@ -55,5 +60,11 @@
     <div class="w-1/4">
         <img id="{{ $name }}_thumbnail" src="">
     </div>
+    
+    {{-- <div class="w-1/4">
+        <img id="{{ $name }}_thumbnail"
+            @if ($cImage) src="{{ asset('storage/products/' . $cImage) }}" @else src="" @endif src="">
+    </div> --}}
 </div>
 <input id="{{ $name }}_hidden" type="hidden" name="{{ $name }}" value="">
+{{-- <input id="{{ $name }}_hidden" type="hidden" name="{{ $name }}" value="{{ $cId }}"> --}}
