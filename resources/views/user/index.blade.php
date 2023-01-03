@@ -4,7 +4,6 @@
             ホーム
         </h2>
     </x-slot>
-
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -20,12 +19,12 @@
         <div class="w-1/4 p-2 md:p-4">
             <a href=""></a>
             {{-- <a href="{{ route('owner.products.edit', ['product' => $product->id]) }}"> --}}
-                <div class="border rounded-md p-2 md:p-4">
-                    <x-thumbnail filename="{{ $product->imageFirst->filename ?? '' }}" type="products" />
-                    <div class="text-gray-700">
-                        {{ $product->name }}
-                    </div>
+            <div class="border rounded-md p-2 md:p-4">
+                <x-thumbnail filename="{{ $product->imageFirst->filename ?? '' }}" type="products" />
+                <div class="text-gray-700">
+                    {{ $product->name }}
                 </div>
+            </div>
             {{-- </a> --}}
         </div>
     @endforeach
