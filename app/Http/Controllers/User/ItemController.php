@@ -17,11 +17,10 @@ class ItemController extends Controller
 
         $this->middleware(function ($request, $next) {
 
-            $id = ($request->route()->parameter('product'));
+            $id = ($request->route()->parameter('item'));
             if (!is_null($id)) {
-                $productsOwnerId = Product::findOrFail($id)->shop->owner->id;
-                $productId = (int)$productsOwnerId;
-                if ($productId !== Auth::id()) {
+                $itemId = Product::availableItems()->where('products.id', $id)->exists();
+                if (!$itemId) {
                     abort(404);
                 }
             }
@@ -32,6 +31,7 @@ class ItemController extends Controller
     public function index()
     {
         $products =  Product::availableItems()->get();
+
 
         return view('user.index', compact('products'));
     }
