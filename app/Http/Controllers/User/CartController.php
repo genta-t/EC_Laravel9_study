@@ -73,11 +73,13 @@ class CartController extends Controller
                     'price_data' => [
                         'unit_amount' => $product->price,
                         'currency' => 'jpy',
+
                         'product_data' => [
                             'name' => $product->name,
                             'description' => $product->information,
                         ],
                     ],
+
                     'quantity' => $product->pivot->quantity,
                 ];
                 array_push($lineItems, $lineItem);
@@ -96,10 +98,9 @@ class CartController extends Controller
 
         $session = \Stripe\Checkout\Session::create([
             'payment_method_types' => ['card'],
-            //支払い方法定義なし
             'line_items' => [$lineItems],
             'mode' => 'payment',
-            'success_url' => route('user.items.index'),
+            'success_url' => route('user.cart.success'),
             'cancel_url' => route('user.cart.index'),
         ]);
 
@@ -109,5 +110,12 @@ class CartController extends Controller
             'session',
             'publicKey'
         ));
+    }
+
+    public function success()
+    {
+        Cart::where('user_id', Auth::id())->delete();
+
+        return redirect()->route('user.items.index');
     }
 }
