@@ -18,7 +18,7 @@ class CartController extends Controller
         $products = $user->products;
         $totalPrice = 0;
 
-        foreach($products as $product){
+        foreach ($products as $product) {
             $totalPrice += $product->price * $product->pivot->quantity;
         }
 
@@ -30,12 +30,12 @@ class CartController extends Controller
     public function add(Request $request)
     {
         $itemInCart = Cart::where('product_id', $request->product_id)
-        ->where('user_id', Auth::id())->first();
+            ->where('user_id', Auth::id())->first();
 
-        if($itemInCart){
+        if ($itemInCart) {
             $itemInCart->quantity += $request->quantity;
             $itemInCart->save();
-        } else{
+        } else {
             Cart::create([
                 'user_id' => Auth::id(),
                 'product_id' => $request->product_id,
@@ -49,9 +49,45 @@ class CartController extends Controller
     public function delete($id)
     {
         Cart::where('product_id', $id)
-        ->where('user_id', Auth::id())
-        ->delete();
+            ->where('user_id', Auth::id())
+            ->delete();
 
         return redirect()->route('user.cart.index');
+    }
+
+    public function checkout()
+    {
+        $user = User::findOrFail(Auth::id());
+        $products = $user->products;
+
+        $lineItems = [];
+        foreach ($products as $product) {
+            $lineItem = [
+                'name' => $product->name,
+                'description' => $product->information,
+                'amount' => $product->price,
+                'currency' => 'jpy',
+                'quantity' => $product->pivot->quantity,
+            ];
+            array_push($lineItems, $lineItem);
+        }
+        // dd($lineItems);
+
+        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+
+        $session = \Stripe\Checkout\Session::create([
+            //支払い方法定義なし
+            'line_items' => [$lineItems],
+            'mode' => 'payment',
+            'success_url' => route('user.items.index'),
+            'cancel_url' => route('user.cart.index'),
+        ]);
+
+        $publicKey = env('STRIPE_PUBLIC_KEY');
+
+        return view('user.checkout', compact(
+            'session',
+            'publicKey'
+        ));
     }
 }
