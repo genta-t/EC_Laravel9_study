@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Constants\Common;
+use App\Jobs\SendThanksMail;
 use App\Mail\TestMail;
 use App\Models\Product;
 use App\Models\PrimaryCategory;
@@ -33,8 +34,10 @@ class ItemController extends Controller
 
     public function index(Request $request)
     {
-        Mail::to('test1@example.com')
-            ->send(new TestMail());
+        // Mail::to('test1@example.com')
+        //     ->send(new TestMail());
+
+        SendThanksMail::dispatch();
 
         $categories = PrimaryCategory::with('secondary')
             ->get();
