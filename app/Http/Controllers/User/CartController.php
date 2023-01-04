@@ -66,20 +66,23 @@ class CartController extends Controller
             $quantity = '';
             $quantity = Stock::where('product_id', $product->id)->sum('quantity');
 
-            if($product->pivot->quantity > $quantity){
+            if ($product->pivot->quantity > $quantity) {
                 return redirect()->route('user.cart.index');
-            } else{
+            } else {
                 $lineItem = [
-                    'name' => $product->name,
-                    'description' => $product->information,
-                    'amount' => $product->price,
-                    'currency' => 'jpy',
+                    'price_data' => [
+                        'unit_amount' => $product->price,
+                        'currency' => 'jpy',
+                        'product_data' => [
+                            'name' => $product->name,
+                            'description' => $product->information,
+                        ],
+                    ],
                     'quantity' => $product->pivot->quantity,
                 ];
                 array_push($lineItems, $lineItem);
             }
         }
-        // dd($lineItems);
 
         foreach ($products as $product) {
             Stock::create([
@@ -89,10 +92,10 @@ class CartController extends Controller
             ]);
         }
 
-        dd('test');
         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
 
         $session = \Stripe\Checkout\Session::create([
+            'payment_method_types' => ['card'],
             //支払い方法定義なし
             'line_items' => [$lineItems],
             'mode' => 'payment',
