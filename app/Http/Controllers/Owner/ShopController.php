@@ -20,7 +20,7 @@ class ShopController extends Controller
         $this->middleware(function ($request, $next) {
 
             $id = ($request->route()->parameter('shop'));
-            // dd(Auth::id());
+
             if (!is_null($id)) {
                 $shopsOwnerId = Shop::findOrFail($id)->owner->id;
                 $shopId = (int)$shopsOwnerId;

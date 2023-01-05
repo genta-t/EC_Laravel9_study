@@ -117,8 +117,6 @@ class CartController extends Controller
 
     public function success()
     {
-                ////
-
                 $items = Cart::where('user_id', Auth::id())->get();
                 $products = CartService::getItemsInCart($items);
                 $user = User::findOrFail(Auth::id());
@@ -128,8 +126,6 @@ class CartController extends Controller
                     SendOrderedMail::dispatch($product, $user);
                     
                 }
-                // dd('usermailsousinn');
-                ////
 
         Cart::where('user_id', Auth::id())->delete();
 

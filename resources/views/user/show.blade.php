@@ -19,7 +19,7 @@
                             </h3>
                             <h3 class="mb-4 text-gray-900 text-3xl title-font font-medium">{{ $product->name }}</h3>
                             <p class="mb-4 leading-relaxed">{{ $product->information }}</p>
-                            <div class="flex items-center mt-4">
+                            <div class="flex justify-around items-center mt-4">
                                 <div>
                                     <span class="title-font font-medium text-2xl text-gray-900">
                                         {{ number_format($product->price) }}
@@ -29,7 +29,7 @@
                                 <form method="post" action="{{ route('user.cart.add') }}">
                                     @csrf
                                     <div class="ml-auto">
-                                        <div class="flex items-center">
+                                        <div class="flex justify-around items-center">
                                             <span class="mr-3">数量</span>
                                             <div class="relative">
                                                 <select name="quantity"
@@ -39,11 +39,11 @@
                                                     @endfor
                                                 </select>
                                             </div>
+                                            <button
+                                                class="flex ml-auto text-white bg-purple-500 border-0 py-2 px-6 focus:outline-none hover:bg-purple-600 rounded">カートに入れる</button>
+                                                <input type="hidden" name="product_id" value="{{ $product->id }}">
                                         </div>
-                                    </div>
-                                    <button
-                                        class="flex ml-auto text-white bg-purple-500 border-0 py-2 px-6 focus:outline-none hover:bg-purple-600 rounded">カートに入れる</button>
-                                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                        </div>
                                 </form>
                             </div>
                         </div>
