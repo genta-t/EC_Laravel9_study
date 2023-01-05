@@ -7,11 +7,12 @@
             <div class="lg:flex lg:justify-around">
                 <div class="lg:flex items-center">
                     <select name="category" class="mb-2 lg:mb-0 lg:mr-2">
-                        <option value="0" @if(\Request::get('category') === '0') selected @endif>全て</option>
+                        <option value="0" @if (\Request::get('category') === '0') selected @endif>全て</option>
                         @foreach ($categories as $category)
                             <optgroup label="{{ $category->name }}">
                                 @foreach ($category->secondary as $secondary)
-                                    <option value="{{ $secondary->id }}" @if(\Request::get('category') == $secondary->id) selected @endif>
+                                    <option value="{{ $secondary->id }}"
+                                        @if (\Request::get('category') == $secondary->id) selected @endif>
                                         {{ $secondary->name }}
                                     </option>
                                 @endforeach
@@ -76,14 +77,16 @@
         </div>
     </div>
 
-    <div class="flex flex-wrap">
+
+    <div class="flex flex-wrap -m-4">
         @foreach ($products as $product)
-            <div class="w-1/4 p-2 md:p-4">
+            <div class="lg:w-1/4 md:w-1/2 p-4 w-full">
                 <a href="{{ route('user.items.show', ['item' => $product->id]) }}">
                     <div class="border rounded-md p-2 md:p-4">
                         <x-thumbnail filename="{{ $product->filename ?? '' }}" type="products" />
                         <div class="mt-4">
-                            <h3 class="text-gray-500 text-xs tracking-widest title-font mb-1">{{ $product->category }}
+                            <h3 class="text-gray-500 text-xs tracking-widest title-font mb-1">
+                                {{ $product->category }}
                             </h3>
                             <h2 class="text-gray-900 title-font text-lg font-medium">{{ $product->name }}</h2>
                             <p class="mt-1">{{ number_format($product->price) }}<span
@@ -96,6 +99,7 @@
             </div>
         @endforeach
     </div>
+
     {{ $products->appends([
             'sort' => \Request::get('sort'),
             'pagination' => \Request::get('pagination'),
