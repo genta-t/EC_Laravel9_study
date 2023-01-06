@@ -16,9 +16,27 @@ class ProductFactory extends Factory
      */
     public function definition()
     {
+
+        $names = [
+            'MacBookPro',
+            'ドラム洗濯機',
+            'ダイソン',
+            'ふとん暖め乾燥機',
+            'ザ・タップZ',
+            'ジアイーノ',
+            'HD防犯カメラ',
+            'Xperia',
+            'HyperX',
+            'Playstation5',
+            'Nintendo Switch',
+            'NVIDIA RTX4090',
+        ];
+
+        $name = $names[rand(0, 11)];
+
         return [
-            'name' => $this->faker->name,
-            'name' => $this->faker->name,
+            'name' => $name,
+            // 'name' => $this->faker->name,
             'information' => $this->faker->realText,
             'price' => $this->faker->numberBetween(10, 100000),
             'is_selling' => $this->faker->numberBetween(0, 1),
