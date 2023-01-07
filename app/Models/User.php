@@ -4,10 +4,12 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Product;
+use App\Models\Post;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use PhpParser\Node\Expr\AssignOp\Pow;
 
 class User extends Authenticatable
 {
@@ -47,5 +49,10 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Product::class, 'carts')
             ->withPivot(['id', 'quantity']);
+    }
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
     }
 }

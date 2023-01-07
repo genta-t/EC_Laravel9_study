@@ -20,6 +20,12 @@
                     <x-nav-link :href="route('user.cart.index')" :active="request()->routeIs('user.cart.index')">
                         {{ __('カートを表示') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('user.post.index')" :active="request()->routeIs('user.post.index')">
+                        {{ __('投稿一覧') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('user.post.create')" :active="request()->routeIs('user.post.create')">
+                        {{ __('新規投稿') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -85,6 +91,12 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('user.cart.index')" :active="request()->routeIs('user.cart.index')">
                 {{ __('カートを表示') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('user.post.index')" :active="request()->routeIs('user.post.index')">
+                {{ __('投稿一覧') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('user.post.create')" :active="request()->routeIs('user.post.create')">
+                {{ __('新規投稿') }}
             </x-responsive-nav-link>
         </div>
 

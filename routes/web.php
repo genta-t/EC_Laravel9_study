@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LifeCycleTestController;
 use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\User\ItemController;
+use App\Http\Controllers\User\PostController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,6 +37,14 @@ Route::prefix('cart')
         Route::get('checkout', [CartController::class, 'checkout'])->name('cart.checkout');
         Route::get('success', [CartController::class, 'success'])->name('cart.success');
         Route::get('cancel', [CartController::class, 'cancel'])->name('cart.cancel');
+    });
+
+Route::prefix('post')
+    ->middleware('auth:users')
+    ->group(function () {
+        Route::get('/create', [PostController::class, 'create'])->name('post.create');
+        Route::post('/store', [PostController::class, 'submission'])->name('post.store');
+        Route::get('/index', [PostController::class, 'index'])->name('post.index');
     });
 
 Route::get('/component-test1', [ComponentTestController::class, 'showComponent1']);
