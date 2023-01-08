@@ -3,16 +3,16 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Services\ImageService;
+use App\Http\Requests\UpLoadImageRequest;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Image;
+use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\UpLoadImageRequest;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use League\Flysystem\StorageAttributes;
-use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
@@ -47,5 +47,15 @@ class PostController extends Controller
         ]);
 
         return redirect()->route('user.post.index');
+    }
+
+    public function profile()
+    {
+
+        $profileUser = User::all();
+
+        // dd($profileUser);
+
+        return view('user.post.profile', compact('profileUser'));
     }
 }

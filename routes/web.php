@@ -6,6 +6,7 @@ use App\Http\Controllers\LifeCycleTestController;
 use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\User\ItemController;
 use App\Http\Controllers\User\PostController;
+use App\Http\Controllers\User\FavoriteController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -45,6 +46,14 @@ Route::prefix('post')
         Route::get('/create', [PostController::class, 'create'])->name('post.create');
         Route::post('/store', [PostController::class, 'submission'])->name('post.store');
         Route::get('/index', [PostController::class, 'index'])->name('post.index');
+        Route::get('/profile', [PostController::class, 'profile'])->name('post.profile');
+    });
+
+Route::prefix('favorites')
+    ->middleware('auth:users')
+    ->group(function () {
+        Route::post('/{id}/favorite', [FavoriteController::class, 'store'])->name('favorites.favorite');
+        Route::delete('/{id}/unfavorite', [FavoriteController::class, 'destroy'])->name('favorites.unfavorite');
     });
 
 Route::get('/component-test1', [ComponentTestController::class, 'showComponent1']);
