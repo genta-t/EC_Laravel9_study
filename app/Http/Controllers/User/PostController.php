@@ -4,9 +4,9 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpLoadImageRequest;
+use App\Models\Image;
 use App\Models\Post;
 use App\Models\User;
-use App\Models\Image;
 use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -49,13 +49,13 @@ class PostController extends Controller
         return redirect()->route('user.post.index');
     }
 
-    public function profile()
+    public function profile(Request $request, $id)
     {
 
-        $profileUser = User::all();
+        $userProfile = User::find($id);
 
-        // dd($profileUser);
+        //  dd($profileUser);
 
-        return view('user.post.profile', compact('profileUser'));
+        return view('user.post.profile', compact('userProfile'));
     }
 }

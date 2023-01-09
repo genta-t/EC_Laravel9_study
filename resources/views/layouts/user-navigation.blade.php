@@ -15,7 +15,7 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('user.items.index')" :active="request()->routeIs('user.items.index')">
-                        {{ __('ホーム') }}
+                        {{ __('商品一覧') }}
                     </x-nav-link>
                     <x-nav-link :href="route('user.cart.index')" :active="request()->routeIs('user.cart.index')">
                         {{ __('カートを表示') }}
@@ -52,6 +52,16 @@
                         <x-dropdown-link :href="route('user.profile.edit')">
                             {{ __('Profile') }}
                         </x-dropdown-link>
+                        {{-- <x-dropdown-link>
+                            <a href="{{ route('user.post.profile', ['id' => Auth::id()]) }}">
+                                プロフィール
+                            </a>
+                        </x-dropdown-link> --}}
+
+                        {{-- <x-nav-link :href="route('user.post.create')" :active="request()->routeIs('user.post.create')">
+                            {{ __('新規投稿') }}
+                        </x-nav-link>
+                        {{ route('user.post.profile', ['id' => $post->user_id]) }} --}}
 
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('user.logout') }}">
@@ -87,7 +97,7 @@
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('user.items.index')" :active="request()->routeIs('user.items.index')">
-                {{ __('ホーム') }}
+                {{ __('商品一覧') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('user.cart.index')" :active="request()->routeIs('user.cart.index')">
                 {{ __('カートを表示') }}

@@ -17,4 +17,17 @@
             </div>
         </div>
     </div>
+    @if (Auth::check())
+        @if (Auth::id() !== $userProfile->id)
+            @if (Auth::user()->is_following($userProfile->id))
+                {!! Form::open(['route' => ['user.follows.unfollow', $userProfile->id], 'method' => 'delete']) !!}
+                {!! Form::submit('フォローしない', ['class' => 'button btn btn-warning text-blue-500']) !!}
+                {!! Form::close() !!}
+            @else
+                {!! Form::open(['route' => ['user.follows.follow', $userProfile->id]]) !!}
+                {!! Form::submit('フォローする', ['class' => 'button btn btn-success text-red-500']) !!}
+                {!! Form::close() !!}
+            @endif
+        @endif
+    @endif
 </x-app-layout>

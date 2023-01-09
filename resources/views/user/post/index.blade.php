@@ -79,36 +79,36 @@
     <div class="flex flex-wrap -m-4">
         @foreach ($posts as $post)
             <div class="lg:w-1/4 md:w-1/2 p-4 w-full">
-                {{-- <a href="{{ route('user.post.profile', ['post' => $post->user_id]) }}"> --}}
-                <div class="border rounded-md p-2 md:p-4">
-                    <div class="ml-2">
-                        <h3 class="text-gray-500 text-xm tracking-widest title-font mb-1">
-                            {{ $post->title }}
-                        </h3>
-                        <p class="mt-1">{{ $post->description }}</p>
-                        <div class="mt-4">
-                            @if (@empty($post->image))
-                                <img src="/images/no_image.jpg" width="130" height="130">
-                            @else
-                                <img src="{{ \Storage::url($post->image) }}" width="130" height="130">
-                            @endif
-                        </div>
-                        <div class="mt-4">
-                            @if (Auth::id() != $post->user_id)
-                                @if (Auth::user()->is_favorite($post->id))
-                                    {!! Form::open(['route' => ['user.favorites.unfavorite', $post->id], 'method' => 'delete']) !!}
-                                    {!! Form::submit('いいね！を外す', ['class' => 'button btn btn-warning text-blue-500']) !!}
-                                    {!! Form::close() !!}
+                <a href="{{ route('user.post.profile', ['id' => $post->user_id]) }}">
+                    <div class="border rounded-md p-2 md:p-4">
+                        <div class="ml-2">
+                            <h3 class="text-gray-500 text-xm tracking-widest title-font mb-1">
+                                {{ $post->title }}
+                            </h3>
+                            <p class="mt-1">{{ $post->description }}</p>
+                            <div class="mt-4">
+                                @if (@empty($post->image))
+                                    <img src="/images/no_image.jpg" width="130" height="130">
                                 @else
-                                    {!! Form::open(['route' => ['user.favorites.favorite', $post->id]]) !!}
-                                    {!! Form::submit('いいね！を付ける', ['class' => 'button btn btn-success text-red-500']) !!}
-                                    {!! Form::close() !!}
+                                    <img src="{{ \Storage::url($post->image) }}" width="130" height="130">
                                 @endif
-                            @endif
+                            </div>
+                            <div class="mt-4">
+                                @if (Auth::id() !== $post->user_id)
+                                    @if (Auth::user()->is_favorite($post->id))
+                                        {!! Form::open(['route' => ['user.favorites.unfavorite', $post->id], 'method' => 'delete']) !!}
+                                            {!! Form::submit('いいね！を外す', ['class' => 'button btn btn-warning text-blue-500']) !!}
+                                        {!! Form::close() !!}
+                                    @else
+                                        {!! Form::open(['route' => ['user.favorites.favorite', $post->id]]) !!}
+                                            {!! Form::submit('いいね！を付ける', ['class' => 'button btn btn-success text-red-500']) !!}
+                                        {!! Form::close() !!}
+                                    @endif
+                                @endif
+                            </div>
                         </div>
                     </div>
-                </div>
-                {{-- </a> --}}
+                </a>
             </div>
         @endforeach
     </div>
