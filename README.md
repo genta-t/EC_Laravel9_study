@@ -18,7 +18,7 @@
 
 例：シーダーファイル
 
-`` $this->call([UserSeeder::class,]); <-Laravel9``
+``$this->call([UserSeeder::class,]); <-Laravel9``
 
 
 ### Laravel Breeze
